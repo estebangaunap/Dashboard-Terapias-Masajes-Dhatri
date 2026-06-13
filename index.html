@@ -199,37 +199,37 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--mu);
 
 <div class="g4" style="margin-bottom:16px">
   <div class="kpi b">
-    <div class="kpi-lbl">✅ Realizadas (3–8 Jun)</div>
-    <div class="kpi-val">7</div>
+    <div class="kpi-lbl">✅ Realizadas (1–12 Jun)</div>
+    <div class="kpi-val">24</div>
     <div class="kpi-sub">Sesiones ya concretadas</div>
   </div>
   <div class="kpi o">
     <div class="kpi-lbl">📅 Agendadas Confirmadas</div>
-    <div class="kpi-val">11</div>
+    <div class="kpi-val">16</div>
     <div class="kpi-sub">Por realizarse este mes</div>
   </div>
   <div class="kpi g">
     <div class="kpi-lbl">Total Confirmado Junio</div>
-    <div class="kpi-val">18<span class="u">+</span></div>
-    <div class="kpi-sub">Quedan 22 días hábiles</div>
+    <div class="kpi-val">40<span class="u">+</span></div>
+    <div class="kpi-sub">Quedan 17 días del mes</div>
   </div>
   <div class="kpi">
     <div class="kpi-lbl">vs Mayo 2026</div>
-    <div class="kpi-val sm"><span class="dn">77%</span> del mes</div>
+    <div class="kpi-val sm"><span class="up">51%</span> del mes</div>
     <div class="kpi-sub">Mayo: 78 · promedio: 47</div>
   </div>
 </div>
 
 <div class="g2" style="margin-bottom:16px">
   <div class="tbl">
-    <div class="tbl-h">✅ Realizadas — Junio 2026 <span class="badge g">7 sesiones</span></div>
+    <div class="tbl-h">✅ Realizadas — Junio 2026 <span class="badge g">24 sesiones</span></div>
     <table>
       <thead><tr><th>Fecha</th><th>Hora</th><th>Terapia</th><th>Terapeuta</th><th>Cliente</th></tr></thead>
       <tbody id="tReal"></tbody>
     </table>
   </div>
   <div class="tbl">
-    <div class="tbl-h">📅 Agendadas — Junio 2026 <span class="badge o">11 sesiones</span></div>
+    <div class="tbl-h">📅 Agendadas — Junio 2026 <span class="badge o">16 sesiones</span></div>
     <table>
       <thead><tr><th>Fecha</th><th>Hora</th><th>Terapia</th><th>Terapeuta</th><th>Cliente</th></tr></thead>
       <tbody id="tSched"></tbody>
@@ -440,7 +440,7 @@ const monthly = [
   {label:'Sep 25',count:31},{label:'Oct 25',count:63},{label:'Nov 25',count:61},
   {label:'Dic 25',count:44},{label:'Ene 26',count:35},{label:'Feb 26',count:47},
   {label:'Mar 26',count:28},{label:'Abr 26',count:52},{label:'May 26',count:78},
-  {label:'Jun 26',count:18,partial:true}
+  {label:'Jun 26',count:40,partial:true}
 ];
 
 // TERAPEUTAS (12 meses)
@@ -514,28 +514,50 @@ const clientes = [
   {name:'Catalina Yañez',              count:5},
 ];
 
-// SESIONES JUNIO
+// SESIONES JUNIO (actualizado al 13 jun 2026)
 const realized = [
-  {date:'Mar 3 Jun',time:'19:30',svc:'Consultoría Ayurveda',       staff:'Vishvanath',    client:'Karol Munoz'},
-  {date:'Mié 4 Jun',time:'11:00',svc:'Masaje Relajación PREMIUM',  staff:'Gita',          client:'María José Durán'},
-  {date:'Mié 4 Jun',time:'11:45',svc:'Masaje Abhyanga',            staff:'Nicolás Ibarra',client:'Andrea Hulsbus'},
-  {date:'Mié 4 Jun',time:'15:30',svc:'Masaje Udvartana',           staff:'Esteban Gauna', client:'Gabriela Vilches'},
-  {date:'Jue 5 Jun',time:'11:45',svc:'Abhyanga PREMIUM',           staff:'Esteban Gauna', client:'Marcos Inostroza'},
-  {date:'Jue 5 Jun',time:'17:00',svc:'Pack 4 Descontracturante',   staff:'Consuelo Silva',client:'Claudia Farjat'},
-  {date:'Vie 6 Jun',time:'12:30',svc:'Abhyanga + Baño de vapor',   staff:'Nicolás Ibarra',client:'Ximena Gattas'},
-];
-const scheduled = [
-  {date:'Lun 9 Jun', time:'14:15',svc:'Masaje Relajación 30 min',  staff:'Esteban Gauna', client:'Carolina Santana'},
+  {date:'Mar 2 Jun', time:'16:00',svc:'Shiro Abhyanga',            staff:'Nicolás Ibarra',client:'Carla Sobarzo'},
+  {date:'Mar 2 Jun', time:'16:00',svc:'Shiro Abhyanga',            staff:'Esteban Gauna', client:'Carla Sobarzo'},
+  {date:'Mié 3 Jun', time:'11:00',svc:'Abhyanga PREMIUM',          staff:'Gita',          client:'Catalina Pizarro'},
+  {date:'Jue 4 Jun', time:'11:00',svc:'Relajación PREMIUM',        staff:'Gita',          client:'María José Durán'},
+  {date:'Jue 4 Jun', time:'11:45',svc:'Masaje Abhyanga',           staff:'Nicolás Ibarra',client:'Andrea Hulsbus'},
+  {date:'Jue 4 Jun', time:'14:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Milena Meza'},
+  {date:'Jue 4 Jun', time:'15:30',svc:'Masaje Udvartana',          staff:'Esteban Gauna', client:'Gabriela Vilches'},
+  {date:'Vie 5 Jun', time:'11:45',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Marcos Inostroza'},
+  {date:'Vie 5 Jun', time:'17:00',svc:'Pack 4 Descontracturante',  staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Sáb 6 Jun', time:'12:30',svc:'Abhyanga + Baño vapor',     staff:'Nicolás Ibarra',client:'Ximena Gattas'},
+  {date:'Mar 9 Jun', time:'14:15',svc:'Relajación 30 min',         staff:'Esteban Gauna', client:'Carolina Santana'},
   {date:'Mié 10 Jun',time:'10:30',svc:'Masaje Abhyanga',           staff:'Nicolás Ibarra',client:'Maria Ignacia Flores'},
   {date:'Mié 10 Jun',time:'12:00',svc:'Terapia Energética',        staff:'Gita',          client:'Luz Sierra'},
   {date:'Mié 10 Jun',time:'16:00',svc:'Abhyanga PREMIUM',          staff:'Gita',          client:'Francisca Gutiérrez'},
-  {date:'Mié 10 Jun',time:'17:00',svc:'Terapia Energética',        staff:'Gita',          client:'Patricia Moreira'},
+  {date:'Mié 10 Jun',time:'18:00',svc:'Terapia Energética',        staff:'Gita',          client:'Yenka Vasquez'},
   {date:'Jue 11 Jun',time:'10:00',svc:'Masaje Abhyanga',           staff:'Gita',          client:'Quynh Duong'},
+  {date:'Jue 11 Jun',time:'12:00',svc:'Abhyanga + Baño vapor',     staff:'Esteban Gauna', client:'Cecilia Becerra'},
+  {date:'Jue 11 Jun',time:'12:00',svc:'Consultoría PREMIUM',       staff:'Vishvanath',    client:'Cecilia Rozas'},
+  {date:'Jue 11 Jun',time:'14:00',svc:'Consultoría 1a sesión',     staff:'Vishvanath',    client:'Verónica Pérez'},
+  {date:'Jue 11 Jun',time:'16:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'María Ignacia Undurraga'},
+  {date:'Vie 12 Jun',time:'11:50',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Marcos Inostroza'},
+  {date:'Vie 12 Jun',time:'15:00',svc:'Abhyanga PREMIUM',          staff:'Nicolás Ibarra',client:'Lili González'},
   {date:'Vie 12 Jun',time:'17:00',svc:'Pack 4 Descontracturante',  staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Vie 12 Jun',time:'18:15',svc:'Abhyanga PREMIUM',          staff:'Nicolás Ibarra',client:'Vania Araníbar'},
+];
+const scheduled = [
+  {date:'Sáb 13 Jun',time:'09:30',svc:'Abhyanga PREMIUM',          staff:'Gita',          client:'Cecilia Carvajal'},
+  {date:'Sáb 13 Jun',time:'12:30',svc:'Masaje Abhyanga',           staff:'Nicolás Ibarra',client:'Jim Woods'},
+  {date:'Sáb 13 Jun',time:'18:30',svc:'Masaje Abhyanga',           staff:'Gita',          client:'Ximena Piera'},
+  {date:'Dom 14 Jun',time:'16:30',svc:'Masaje Abhyanga',           staff:'Gita',          client:'Ximena Piera'},
   {date:'Mar 16 Jun',time:'17:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Victoria Loyola'},
+  {date:'Mié 17 Jun',time:'16:00',svc:'Descontracturante PREMIUM', staff:'Gita',          client:'Diego Lillo'},
+  {date:'Jue 18 Jun',time:'15:00',svc:'Terapia Energética',        staff:'Gita',          client:'Patricia Moreira'},
   {date:'Jue 18 Jun',time:'15:30',svc:'Masaje Udvartana',          staff:'Esteban Gauna', client:'Gabriela Vilches'},
-  {date:'Vie 19 Jun',time:'17:00',svc:'Masaje Descontracturante',  staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Jue 18 Jun',time:'18:30',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Raquel Monares'},
+  {date:'Vie 19 Jun',time:'17:00',svc:'Descontracturante 1h',      staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Vie 19 Jun',time:'18:30',svc:'Masaje Abhyanga',           staff:'Nicolás Ibarra',client:'Andrea Obon'},
+  {date:'Sáb 20 Jun',time:'14:00',svc:'Terapia Energética',        staff:'Gita',          client:'Catalina Yañez'},
+  {date:'Sáb 20 Jun',time:'16:00',svc:'Relajación PREMIUM',        staff:'Gita',          client:'Carmen Gloria Zabanca'},
+  {date:'Lun 22 Jun',time:'18:00',svc:'Abhyanga PREMIUM',          staff:'Consuelo Silva',client:'Vania Araníbar'},
   {date:'Jue 25 Jun',time:'14:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Milena Meza'},
+  {date:'Vie 26 Jun',time:'17:00',svc:'Reflexología',              staff:'Consuelo Silva',client:'Claudia Farjat'},
 ];
 
 // ══════════════════════════════════════════════════════════════
@@ -558,7 +580,7 @@ function rrBadge(r){const c=r>=40?'rr-hi':r>=25?'rr-mi':'rr-lo';return `<span cl
 // ══════════════════════════════════════════════════════════════
 const avgMonthly = Math.round(monthly.filter(m=>!m.partial).reduce((a,m)=>a+m.count,0)/(monthly.length-1));
 const metaMensual = 65;
-const junConfirmed = 18;
+const junConfirmed = 40;
 const junPct = Math.round((junConfirmed/metaMensual)*100);
 const gitaShare = Math.round((229/TOTAL_SESSIONS)*100);
 const avgReturnRate = Math.round(terapeutas.slice(0,4).reduce((a,t)=>a+t.rate,0)/4);
