@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Masajes &amp; Terapias — Dhatri</title>
+<style>
+:root{
+  --bg:#f5f0eb;--card:#fff;--pri:#8b5e3c;--pli:#c49a6c;
+  --acc:#4f7c6b;--txt:#2c1a0e;--mu:#8a7060;
+  --ok:#27ae60;--warn:#e67e22;--err:#c0392b;--info:#2980b9;
+  --bd:#e8ddd3;--sh:0 2px 14px rgba(80,30,0,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:14px}
+
+header{background:linear-gradient(135deg,#5c3317,#3b1f0a);color:#fff;
+  padding:20px 32px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 3px 12px rgba(0,0,0,.3);flex-wrap:wrap;gap:10px}
+.logo{font-size:22px;font-weight:800;letter-spacing:1px}
+.logo .hi{color:#c49a6c}
+.logo .sub{font-size:12px;font-weight:400;opacity:.7;margin-left:8px}
+.meta{text-align:right;font-size:12px;opacity:.8;line-height:1.8}
+.meta strong{color:#f0d9c0;display:block;font-size:14px}
+
+.wrap{max-width:1300px;margin:0 auto;padding:22px 18px 50px}
+
+.sec{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+  color:var(--mu);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.sec::after{content:'';flex:1;height:1px;background:var(--bd)}
+
+/* ── KPI cards ── */
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px}
+.kpi{background:var(--card);border-radius:12px;padding:18px 20px;box-shadow:var(--sh);
+  border-left:5px solid var(--pri);display:flex;flex-direction:column;gap:5px}
+.kpi.g{border-left-color:var(--acc)}.kpi.o{border-left-color:var(--warn)}
+.kpi.t{border-left-color:#16a085}.kpi.b{border-left-color:var(--info)}.kpi.r{border-left-color:var(--err)}
+.kpi-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--mu)}
+.kpi-val{font-size:32px;font-weight:900;line-height:1.1}
+.kpi-val .u{font-size:13px;font-weight:500;color:var(--mu)}
+.kpi-val.sm{font-size:20px;line-height:1.35}
+.kpi-sub{font-size:11px;color:var(--mu)}
+.up{color:var(--ok);font-weight:700}.dn{color:var(--err);font-weight:700}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.g2t{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px}
+@media(max-width:720px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:12px;padding:20px 22px;box-shadow:var(--sh)}
+.card h3{font-size:14px;font-weight:700;margin-bottom:3px}
+.card .sub{font-size:11px;color:var(--mu);margin-bottom:14px}
+
+/* ── SMART INDICATORS ── */
+.smart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.smart-card{background:var(--card);border-radius:14px;box-shadow:var(--sh);overflow:hidden}
+.smart-top{padding:16px 18px 12px;border-bottom:1px solid var(--bd)}
+.smart-status{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.smart-name{font-size:13px;font-weight:700;color:var(--txt)}
+.traffic{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.traffic.green{background:var(--ok);box-shadow:0 0 6px rgba(39,174,96,.5)}
+.traffic.yellow{background:var(--warn);box-shadow:0 0 6px rgba(230,126,34,.5)}
+.traffic.red{background:var(--err);box-shadow:0 0 6px rgba(192,57,43,.5)}
+.smart-val{font-size:34px;font-weight:900;line-height:1}
+.smart-target{font-size:11px;color:var(--mu);margin-top:2px}
+.smart-progress-bg{height:7px;background:#f0e8e0;border-radius:4px;margin-top:10px;overflow:hidden}
+.smart-progress-fill{height:100%;border-radius:4px;transition:width .5s}
+.smart-bottom{padding:12px 18px;background:#faf7f4}
+.smart-cta{font-size:12px;color:var(--pri);font-weight:600;line-height:1.5}
+.smart-cta .cta-label{display:inline-block;background:var(--pri);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-right:5px;
+  text-transform:uppercase;letter-spacing:.4px}
+.smart-cta .cta-label.g{background:var(--acc)}
+.smart-cta .cta-label.o{background:var(--warn)}
+.smart-cta .cta-label.r{background:var(--err)}
+
+/* ── SEGMENTATION ── */
+.seg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.seg{border-radius:12px;padding:18px 20px;box-shadow:var(--sh);text-align:center;color:#fff}
+.seg-ico{font-size:28px;margin-bottom:8px}
+.seg-n{font-size:42px;font-weight:900;line-height:1}
+.seg-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.9;margin-top:4px}
+.seg-crit{font-size:11px;opacity:.75;margin-top:3px}
+.seg-vip{background:linear-gradient(135deg,#8b1a1a,#c0392b)}
+.seg-frec{background:linear-gradient(135deg,#6d4c1b,#e67e22)}
+.seg-hab{background:linear-gradient(135deg,#1a5c3a,#27ae60)}
+.seg-reg{background:linear-gradient(135deg,#2c4a6e,#2980b9)}
+
+/* ── TABLES ── */
+.tbl{background:var(--card);border-radius:12px;box-shadow:var(--sh);overflow:hidden}
+.tbl-h{font-size:14px;font-weight:700;padding:14px 18px;border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.badge{border-radius:20px;font-size:10px;padding:2px 9px;font-weight:800;
+  background:var(--pri);color:#fff;white-space:nowrap}
+.badge.g{background:var(--acc)}.badge.o{background:var(--warn)}
+.badge.t{background:#16a085}.badge.b{background:var(--info)}.badge.r{background:var(--err)}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--mu);
+  padding:9px 14px;text-align:left;background:#faf7f4;font-weight:700}
+tbody td{padding:9px 14px;font-size:13px;border-top:1px solid var(--bd);vertical-align:middle}
+tbody tr:hover{background:#fdf9f6}
+.rn{display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;font-size:10px;font-weight:700;
+  background:var(--bg);color:var(--mu);border:1px solid var(--bd)}
+.rn.gold{background:#fff3cd;color:#856404;border-color:#ffc107}
+.rn.silver{background:#e9ecef;color:#495057;border-color:#adb5bd}
+.rn.bronze{background:#fce8d3;color:#7a4510;border-color:#fd7e14}
+.ib{display:flex;align-items:center;gap:6px;min-width:80px}
+.ib-bg{height:7px;background:var(--bd);border-radius:4px;flex:1;min-width:40px}
+.ib-fill{height:100%;border-radius:4px}
+.pill{display:inline-block;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;text-transform:uppercase}
+.p-vip{background:#fdecea;color:#c0392b}
+.p-frec{background:#fef3e2;color:#c77a00}
+.p-hab{background:#eaf7ef;color:#1d8a4a}
+.p-reg{background:#e8f4fc;color:#1a6a9e}
+.rr{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.rr-hi{background:#eaf7ef;color:#1d8a4a}
+.rr-mi{background:#fef3e2;color:#c77a00}
+.rr-lo{background:#fdecea;color:#c0392b}
+
+/* ── MONTHLY TREND CHART ── */
+.vchart{display:flex;align-items:flex-end;gap:5px;height:140px;
+  border-bottom:2px solid var(--bd);padding:0 4px}
+.vbar{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.vbar-fill{width:100%;border-radius:4px 4px 0 0;min-height:4px;position:relative;transition:height .3s}
+.vbar-tip{position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  font-size:10px;font-weight:700;white-space:nowrap;color:var(--txt)}
+.vbar-lbl{font-size:9px;color:var(--mu);margin-top:5px;text-align:center;font-weight:600;
+  writing-mode:vertical-lr;transform:rotate(180deg);height:30px;line-height:1}
+
+/* ── DONUT ── */
+.donut-w{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:8px}
+.donut{width:130px;height:130px;border-radius:50%;flex-shrink:0;
+  -webkit-mask:radial-gradient(circle,transparent 42%,black 43%);
+  mask:radial-gradient(circle,transparent 42%,black 43%)}
+.dleg{display:flex;flex-direction:column;gap:7px;flex:1}
+.dleg-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.dleg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+
+/* ── TERAPEUTA CARDS ── */
+.ter-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:16px}
+.ter-card{background:var(--card);border-radius:12px;box-shadow:var(--sh);padding:18px 20px}
+.ter-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:#fff;font-size:18px;font-weight:800;flex-shrink:0}
+.ter-sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
+.ter-s{background:var(--bg);border-radius:8px;padding:9px;text-align:center}
+.ter-sv{font-size:18px;font-weight:900;line-height:1}
+.ter-sl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-top:2px}
+.ter-tr{display:flex;align-items:center;justify-content:space-between;
+  padding:5px 0;border-top:1px solid var(--bd);font-size:12px}
+
+/* ── VIP LIST ── */
+.vip-card{background:linear-gradient(135deg,#fff8f5,#fff);border:1px solid #f0d9c0;
+  border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.vip-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#8b1a1a,#c0392b);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.vip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+
+.warn-box{background:#fff8e6;border:1px solid #f0c040;border-radius:10px;
+  padding:12px 16px;font-size:12px;color:#8a6000;display:flex;align-items:flex-start;gap:8px;line-height:1.6}
+.nota{background:#fef9f3;border:1px solid #f0d9b5;border-radius:10px;
+  padding:12px 16px;font-size:12px;color:#7a5c30;margin-top:20px;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.6}
+footer{text-align:center;padding:18px;font-size:11px;color:var(--mu);
+  border-top:1px solid var(--bd);margin-top:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">dh<span class="hi">a</span>tri<span class="sub">· Dashboard Masajes &amp; Terapias</span></div>
+    <div style="font-size:11px;opacity:.5;margin-top:3px">dhatri.cl &nbsp;·&nbsp; Santiago, Chile &nbsp;·&nbsp; Jun 2025 – Jun 2026</div>
+  </div>
+  <div class="meta">
+    <strong>12 meses · 598 sesiones · Wix Bookings</strong>
+    <span id="fHdr"></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════════
+     0. INDICADORES SMART
+═══════════════════════════════════════════ -->
+<div class="sec">🎯 Indicadores SMART — Panel de Gestión</div>
+
+<div class="warn-box" style="margin-bottom:14px">
+  💡 <span><strong>Nota:</strong> Marcos Inostroza aparece en el sistema como "marcos prueba inostroza prueba" (nombre de configuración inicial). Es un cliente real con 32 sesiones — el <strong>cliente más frecuente del año</strong>. Se recomienda actualizar su nombre en el CRM de Wix.</span>
+</div>
+
+<div class="smart-grid" id="smartGrid"></div>
+
+
+<!-- ═══════════════════════════════════════════
+     1. PROYECCIÓN MES ACTUAL — JUNIO 2026
+═══════════════════════════════════════════ -->
+<div class="sec">🔮 Proyección Mes Actual — Junio 2026</div>
+
+<div class="g4" style="margin-bottom:16px">
+  <div class="kpi b">
+    <div class="kpi-lbl">✅ Realizadas (3–8 Jun)</div>
+    <div class="kpi-val">7</div>
+    <div class="kpi-sub">Sesiones ya concretadas</div>
+  </div>
+  <div class="kpi o">
+    <div class="kpi-lbl">📅 Agendadas Confirmadas</div>
+    <div class="kpi-val">11</div>
+    <div class="kpi-sub">Por realizarse este mes</div>
+  </div>
+  <div class="kpi g">
+    <div class="kpi-lbl">Total Confirmado Junio</div>
+    <div class="kpi-val">18<span class="u">+</span></div>
+    <div class="kpi-sub">Quedan 22 días hábiles</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">vs Mayo 2026</div>
+    <div class="kpi-val sm"><span class="dn">77%</span> del mes</div>
+    <div class="kpi-sub">Mayo: 78 · promedio: 47</div>
+  </div>
+</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="tbl">
+    <div class="tbl-h">✅ Realizadas — Junio 2026 <span class="badge g">7 sesiones</span></div>
+    <table>
+      <thead><tr><th>Fecha</th><th>Hora</th><th>Terapia</th><th>Terapeuta</th><th>Cliente</th></tr></thead>
+      <tbody id="tReal"></tbody>
+    </table>
+  </div>
+  <div class="tbl">
+    <div class="tbl-h">📅 Agendadas — Junio 2026 <span class="badge o">11 sesiones</span></div>
+    <table>
+      <thead><tr><th>Fecha</th><th>Hora</th><th>Terapia</th><th>Terapeuta</th><th>Cliente</th></tr></thead>
+      <tbody id="tSched"></tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     2. TENDENCIA 12 MESES
+═══════════════════════════════════════════ -->
+<div class="sec">📊 Tendencia 12 Meses — Jun 2025 a Jun 2026</div>
+
+<div class="card">
+  <h3>Sesiones Mensuales de Masajes &amp; Terapias</h3>
+  <div class="sub">598 sesiones totales · promedio 47/mes · récord mayo 2026: 78</div>
+  <div class="vchart" id="monthChart" style="margin-top:12px"></div>
+  <div style="display:flex;gap:5px;margin-top:8px" id="monthLabels"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     3. RESUMEN MES ANTERIOR — MAYO 2026
+═══════════════════════════════════════════ -->
+<div class="sec">📅 Resumen Mes Anterior — Mayo 2026</div>
+
+<div class="g4" style="margin-bottom:16px">
+  <div class="kpi">
+    <div class="kpi-lbl">Total Sesiones Mayo</div>
+    <div class="kpi-val">78</div>
+    <div class="kpi-sub"><span class="up">+50%</span> vs Abril (52)</div>
+  </div>
+  <div class="kpi g">
+    <div class="kpi-lbl">Terapeuta #1</div>
+    <div class="kpi-val sm">Gita</div>
+    <div class="kpi-sub">Terapia Energética + Abhyanga</div>
+  </div>
+  <div class="kpi o">
+    <div class="kpi-lbl">Servicio #1</div>
+    <div class="kpi-val sm">Abhyanga</div>
+    <div class="kpi-sub">Mayor demanda histórica</div>
+  </div>
+  <div class="kpi t">
+    <div class="kpi-lbl">vs Promedio Histórico</div>
+    <div class="kpi-val sm"><span class="up">+66%</span></div>
+    <div class="kpi-sub">Promedio 12m: 47 ses./mes</div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <h3>Por Terapeuta — 12 meses</h3>
+    <div class="sub">598 sesiones totales · Jun 2025–Jun 2026</div>
+    <div class="donut-w">
+      <div class="donut" id="dTer"></div>
+      <div class="dleg" id="lTer"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Por Familia de Servicio — 12 meses</h3>
+    <div class="sub">Agrupación por categoría principal</div>
+    <div class="donut-w">
+      <div class="donut" id="dFam"></div>
+      <div class="dleg" id="lFam"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     4. CLIENTES FRECUENTES — 12 MESES
+═══════════════════════════════════════════ -->
+<div class="sec">👥 Segmentación de Clientes — 12 Meses Reales</div>
+
+<div class="seg-grid" style="margin-bottom:18px">
+  <div class="seg seg-vip">
+    <div class="seg-ico">👑</div>
+    <div class="seg-n">6</div>
+    <div class="seg-lbl">VIP</div>
+    <div class="seg-crit">10+ sesiones / año</div>
+  </div>
+  <div class="seg seg-frec">
+    <div class="seg-ico">⭐</div>
+    <div class="seg-n">14</div>
+    <div class="seg-lbl">Frecuente</div>
+    <div class="seg-crit">6–9 sesiones / año</div>
+  </div>
+  <div class="seg seg-hab">
+    <div class="seg-ico">💚</div>
+    <div class="seg-n">43</div>
+    <div class="seg-lbl">Habitual</div>
+    <div class="seg-crit">3–5 sesiones / año</div>
+  </div>
+  <div class="seg seg-reg">
+    <div class="seg-ico">🔵</div>
+    <div class="seg-n">195</div>
+    <div class="seg-lbl">Regular</div>
+    <div class="seg-crit">1–2 sesiones / año</div>
+  </div>
+</div>
+
+<!-- VIP Cards -->
+<div class="tbl-h" style="background:transparent;padding:0;margin-bottom:12px;box-shadow:none">
+  Clientes VIP — Requieren seguimiento activo <span class="badge r">5 VIPs reales</span>
+</div>
+<div class="vip-grid" style="margin-bottom:18px" id="vipCards"></div>
+
+<!-- Top 20 table -->
+<div class="tbl">
+  <div class="tbl-h">Top 20 Clientes — 12 Meses <span class="badge o">258 clientes únicos</span></div>
+  <table>
+    <thead><tr><th>#</th><th>Cliente</th><th>Sesiones</th><th>Clasificación</th><th>Indicador</th></tr></thead>
+    <tbody id="tCli"></tbody>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     5. PERFIL POR TERAPEUTA — 12 MESES
+═══════════════════════════════════════════ -->
+<div class="sec">🧑‍⚕️ Perfil por Terapeuta — 12 Meses Reales</div>
+
+<div class="tbl">
+  <div class="tbl-h">Estadísticas por Terapeuta <span class="badge g">598 sesiones · Jun 2025–Jun 2026</span></div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Terapeuta</th><th>Sesiones</th><th>Part. %</th><th>Clientes únicos</th><th>Tasa Retorno</th><th>Top Terapias</th></tr>
+    </thead>
+    <tbody id="tTer"></tbody>
+  </table>
+</div>
+
+<div class="ter-cards" id="terCards"></div>
+
+
+<!-- ═══════════════════════════════════════════
+     5b. PIRÁMIDE DE FIDELIZACIÓN POR TERAPEUTA
+═══════════════════════════════════════════ -->
+<div class="sec">🔺 Pirámide de Fidelización por Terapeuta — 12 Meses</div>
+
+<div class="card" style="margin-bottom:14px">
+  <h3>¿Cómo se distribuyen los clientes de cada terapeuta?</h3>
+  <div class="sub">Clasificación según sesiones realizadas con ese terapeuta específico · Terapeutas con ≥ 14 clientes</div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:3px;background:#c0392b"></div><strong>👑 Leal</strong> 7+ sesiones</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:3px;background:#e67e22"></div><strong>⭐ Frecuente</strong> 4–6 sesiones</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:3px;background:#27ae60"></div><strong>💚 Habitual</strong> 2–3 sesiones</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:3px;background:#2980b9"></div><strong>🔵 Una vez</strong> 1 sesión</div>
+  </div>
+</div>
+
+<div id="fidCards" style="display:flex;flex-direction:column;gap:16px"></div>
+
+
+<!-- ═══════════════════════════════════════════
+     6. RANKING DE TERAPIAS — 12 MESES
+═══════════════════════════════════════════ -->
+<div class="sec">💆 Ranking de Terapias — 12 Meses Reales</div>
+
+<div class="g2">
+  <div class="card">
+    <h3>Top 10 Terapias &amp; Masajes</h3>
+    <div class="sub">Por sesiones realizadas Jun 2025–Jun 2026</div>
+    <div id="bcSvc" style="display:flex;flex-direction:column;gap:7px;margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <h3>Ranking por Familia</h3>
+    <div class="sub">Categorías principales de servicio</div>
+    <div class="donut-w" style="margin-top:10px">
+      <div class="donut" id="dFam2"></div>
+      <div class="dleg" id="lFam2"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tbl" style="margin-top:16px">
+  <div class="tbl-h">Ranking Completo de Servicios — 12 Meses <span class="badge">20 servicios</span></div>
+  <table>
+    <thead><tr><th>#</th><th>Servicio</th><th>Sesiones</th><th>% del Total</th><th>Participación</th></tr></thead>
+    <tbody id="tSvc"></tbody>
+  </table>
+</div>
+
+<div class="nota">
+  ℹ️ <span><strong>Datos:</strong> 598 sesiones reales de masajes &amp; terapias (Jun 2025–Jun 2026). Se excluyen: Sonoterapia, Prakriti, Yoga Funcional y clases de yoga. <strong>Marcos Inostroza</strong> (32 sesiones) está incluido como cliente real — su nombre aparece como "marcos prueba inostroza prueba" en el CRM de Wix; se recomienda actualizarlo directamente en el panel de Wix Contacts.</span>
+</div>
+</div>
+<footer>Dashboard Masajes &amp; Terapias · Dhatri · <span id="fFtr"></span></footer>
+
+<script>
+// ── FECHA ─────────────────────────────────────────────────────
+const now = new Date();
+const fmtFull = d => d.toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
+document.getElementById('fHdr').textContent = fmtFull(now);
+document.getElementById('fFtr').textContent = fmtFull(now);
+
+// ── PALETAS ───────────────────────────────────────────────────
+const PAL  = ['#8b5e3c','#4f7c6b','#d4956a','#16a085','#c49a6c','#a0522d','#7faf9e','#e67e22','#2980b9','#6b8c80','#c07840','#3d7a5c'];
+const TCOL = ['#8b5e3c','#4f7c6b','#d4956a','#16a085','#c49a6c','#a0522d','#95a5a6','#bdc3c7'];
+
+// ══════════════════════════════════════════════════════════════
+// DATOS REALES — 12 meses (Jun 2025–Jun 2026)
+// ══════════════════════════════════════════════════════════════
+
+// TENDENCIA MENSUAL
+const monthly = [
+  {label:'Jun 25',count:32},{label:'Jul 25',count:55},{label:'Ago 25',count:48},
+  {label:'Sep 25',count:31},{label:'Oct 25',count:63},{label:'Nov 25',count:61},
+  {label:'Dic 25',count:44},{label:'Ene 26',count:35},{label:'Feb 26',count:47},
+  {label:'Mar 26',count:28},{label:'Abr 26',count:52},{label:'May 26',count:78},
+  {label:'Jun 26',count:18,partial:true}
+];
+
+// TERAPEUTAS (12 meses)
+const terapeutas = [
+  {name:'Gita',          total:229,uniq:125,ret:47,rate:38,color:'#8b5e3c',
+   top:[{n:'Terapia Energética',c:91},{n:'Masaje Abhyanga',c:33},{n:'Abhyanga PREMIUM',c:28},{n:'Masaje Descontracturante',c:21}]},
+  {name:'Esteban Gauna', total:180,uniq:61,ret:23,rate:38,color:'#4f7c6b',
+   top:[{n:'Abhyanga PREMIUM',c:53},{n:'Masaje Abhyanga',c:41},{n:'Terapia Ayurveda consultoría',c:12},{n:'Baño de vapor Svedana',c:12}]},
+  {name:'Nicolás Ibarra',total:104,uniq:72,ret:17,rate:24,color:'#d4956a',
+   top:[{n:'Masaje Abhyanga',c:42},{n:'Masaje Descontracturante',c:22},{n:'Abhyanga PREMIUM',c:8},{n:'Masaje Relajación 1h',c:6}]},
+  {name:'Consuelo Silva',total:35,uniq:19,ret:7,rate:37,color:'#16a085',
+   top:[{n:'Masaje Descontracturante',c:8},{n:'Abhyanga PREMIUM',c:5},{n:'Reflexología',c:4},{n:'Masaje Abhyanga',c:4}]},
+  {name:'Vishvanath',    total:30,uniq:21,ret:5,rate:24,color:'#c49a6c',
+   top:[{n:'Consultoría Ayurveda 1a sesión',c:12},{n:'Terapia Ayurveda 1a sesión',c:7},{n:'Otras sesiones Ayurveda',c:6}]},
+  {name:'Paulina Osorio',total:16,uniq:14,ret:2,rate:14,color:'#a0522d',
+   top:[{n:'Masaje Descontracturante',c:7},{n:'Masaje Abhyanga',c:4},{n:'Masaje Relajación 1h',c:2}]},
+];
+const TOTAL_SESSIONS = 598;
+
+// SERVICIOS (12 meses)
+const servicios = [
+  {n:'Masaje Ayurvédico Abhyanga',      c:124,fam:'Masaje Ayurvédico'},
+  {n:'Abhyanga - PREMIUM',              c:95, fam:'Masaje Ayurvédico'},
+  {n:'Terapia Energética (Gita)',        c:91, fam:'Terapia Energética'},
+  {n:'Masaje Descontracturante 1h',     c:62, fam:'Masaje Occidental'},
+  {n:'Baño de vapor (Svedana)',          c:23, fam:'Masaje Ayurvédico'},
+  {n:'Masaje Relajación 1 hora',         c:19, fam:'Masaje Occidental'},
+  {n:'Limpieza Nasal (Nasya)',           c:17, fam:'Tratamiento'},
+  {n:'Consultoría Ayurveda 1a sesión',  c:19, fam:'Consultoría'},
+  {n:'Masaje Ayurvédico Udvartana',      c:11, fam:'Masaje Ayurvédico'},
+  {n:'Masaje Shiro Abhyanga',            c:11, fam:'Masaje Ayurvédico'},
+  {n:'Masaje Mixto Relaj./Descont.',    c:10, fam:'Masaje Occidental'},
+  {n:'Masaje Ayurvédico Mukha Abhyanga',c:10, fam:'Masaje Ayurvédico'},
+  {n:'Masaje Descontracturante PREMIUM',c:9,  fam:'Masaje Occidental'},
+  {n:'Masaje Relajación PREMIUM',       c:8,  fam:'Masaje Occidental'},
+  {n:'Reflexología Terapeútica',        c:8,  fam:'Reflexología'},
+  {n:'Masaje facial y craneal PREMIUM', c:8,  fam:'Masaje Ayurvédico'},
+  {n:'Terapia Ayurveda otras sesiones', c:13, fam:'Consultoría'},
+  {n:'Consultoría Ayurvédica PREMIUM',  c:6,  fam:'Consultoría'},
+  {n:'Masaje Abhyanga posterior',       c:5,  fam:'Masaje Ayurvédico'},
+  {n:'Reflexología + Relajación',       c:4,  fam:'Reflexología'},
+];
+
+// FAMILIAS
+const famMap = {};
+servicios.forEach(s=>{ famMap[s.fam]=(famMap[s.fam]||0)+s.c; });
+const fams = Object.entries(famMap).sort((a,b)=>b[1]-a[1]).map(([n,v])=>({n,v}));
+
+// CLIENTES (12 meses, Marcos Inostroza incluido con nombre real)
+const clientes = [
+  {name:'Marcos Inostroza',            count:32},
+  {name:'Melina Gambin',               count:29},
+  {name:'Maria de los Ángeles García', count:20},
+  {name:'Vania Araníbar',              count:13},
+  {name:'Joanna Arizabalo Silva',      count:11},
+  {name:'Marcela Nercam',              count:10},
+  {name:'Pilar Munitiz Navarrete',     count:9},
+  {name:'Isabella Solari Irribarra',   count:8},
+  {name:'María Nelly Liendo',          count:8},
+  {name:'Claudia Farjat',              count:7},
+  {name:'Gabriela Vilches',            count:7},
+  {name:'María Ignacia Undurraga',     count:7},
+  {name:'Maria Teresa Molina',         count:7},
+  {name:'Charlotte Hannir',            count:7},
+  {name:'Anja Lowenstein Bauerle',     count:7},
+  {name:'Milena Meza',                 count:6},
+  {name:'Nathalia Urquejo',            count:6},
+  {name:'Cecilia Carvajal Urzua',      count:6},
+  {name:'Milagros Rotger',             count:6},
+  {name:'Jeannette Vargas',            count:6},
+  {name:'Catalina Yañez',              count:5},
+];
+
+// SESIONES JUNIO
+const realized = [
+  {date:'Mar 3 Jun',time:'19:30',svc:'Consultoría Ayurveda',       staff:'Vishvanath',    client:'Karol Munoz'},
+  {date:'Mié 4 Jun',time:'11:00',svc:'Masaje Relajación PREMIUM',  staff:'Gita',          client:'María José Durán'},
+  {date:'Mié 4 Jun',time:'11:45',svc:'Masaje Abhyanga',            staff:'Nicolás Ibarra',client:'Andrea Hulsbus'},
+  {date:'Mié 4 Jun',time:'15:30',svc:'Masaje Udvartana',           staff:'Esteban Gauna', client:'Gabriela Vilches'},
+  {date:'Jue 5 Jun',time:'11:45',svc:'Abhyanga PREMIUM',           staff:'Esteban Gauna', client:'Marcos Inostroza'},
+  {date:'Jue 5 Jun',time:'17:00',svc:'Pack 4 Descontracturante',   staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Vie 6 Jun',time:'12:30',svc:'Abhyanga + Baño de vapor',   staff:'Nicolás Ibarra',client:'Ximena Gattas'},
+];
+const scheduled = [
+  {date:'Lun 9 Jun', time:'14:15',svc:'Masaje Relajación 30 min',  staff:'Esteban Gauna', client:'Carolina Santana'},
+  {date:'Mié 10 Jun',time:'10:30',svc:'Masaje Abhyanga',           staff:'Nicolás Ibarra',client:'Maria Ignacia Flores'},
+  {date:'Mié 10 Jun',time:'12:00',svc:'Terapia Energética',        staff:'Gita',          client:'Luz Sierra'},
+  {date:'Mié 10 Jun',time:'16:00',svc:'Abhyanga PREMIUM',          staff:'Gita',          client:'Francisca Gutiérrez'},
+  {date:'Mié 10 Jun',time:'17:00',svc:'Terapia Energética',        staff:'Gita',          client:'Patricia Moreira'},
+  {date:'Jue 11 Jun',time:'10:00',svc:'Masaje Abhyanga',           staff:'Gita',          client:'Quynh Duong'},
+  {date:'Vie 12 Jun',time:'17:00',svc:'Pack 4 Descontracturante',  staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Mar 16 Jun',time:'17:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Victoria Loyola'},
+  {date:'Jue 18 Jun',time:'15:30',svc:'Masaje Udvartana',          staff:'Esteban Gauna', client:'Gabriela Vilches'},
+  {date:'Vie 19 Jun',time:'17:00',svc:'Masaje Descontracturante',  staff:'Consuelo Silva',client:'Claudia Farjat'},
+  {date:'Jue 25 Jun',time:'14:00',svc:'Abhyanga PREMIUM',          staff:'Esteban Gauna', client:'Milena Meza'},
+];
+
+// ══════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════
+function rn(i){return `<span class="rn ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</span>`;}
+function ib(pct,col){return `<div class="ib"><div class="ib-bg"><div class="ib-fill" style="width:${Math.min(pct,100)}%;background:${col||'var(--pli)'}"></div></div><span style="font-size:11px;color:var(--mu);min-width:30px">${pct}%</span></div>`;}
+function donut(elId,legId,data,cols){
+  const tot=data.reduce((a,d)=>a+d.v,0);let deg=0;const stops=[];
+  data.forEach((d,i)=>{const s=(d.v/tot)*360;stops.push(`${cols[i%cols.length]} ${deg}deg ${deg+s}deg`);deg+=s;});
+  document.getElementById(elId).style.background=`conic-gradient(${stops.join(',')})`;
+  const leg=document.getElementById(legId);
+  data.forEach((d,i)=>{const pct=((d.v/tot)*100).toFixed(1);
+    leg.innerHTML+=`<div class="dleg-row"><div class="dleg-dot" style="background:${cols[i%cols.length]}"></div><span><strong>${d.n}</strong> <span style="color:var(--mu);font-size:11px">${d.v} · ${pct}%</span></span></div>`;});
+}
+function rrBadge(r){const c=r>=40?'rr-hi':r>=25?'rr-mi':'rr-lo';return `<span class="rr ${c}">${r}%</span>`;}
+
+// ══════════════════════════════════════════════════════════════
+// 0. SMART INDICATORS
+// ══════════════════════════════════════════════════════════════
+const avgMonthly = Math.round(monthly.filter(m=>!m.partial).reduce((a,m)=>a+m.count,0)/(monthly.length-1));
+const metaMensual = 65;
+const junConfirmed = 18;
+const junPct = Math.round((junConfirmed/metaMensual)*100);
+const gitaShare = Math.round((229/TOTAL_SESSIONS)*100);
+const avgReturnRate = Math.round(terapeutas.slice(0,4).reduce((a,t)=>a+t.rate,0)/4);
+const totalUniq = 258;
+const newPerMonth = Math.round(totalUniq/12);
+
+const smartData = [
+  {
+    name:'Ritmo de Sesiones Mensual',
+    desc:'Meta: 65 sesiones/mes (+38% sobre histórico de 47)',
+    val: junConfirmed+'', unit:' conf.',
+    target:`Meta: ${metaMensual}/mes`,
+    pct: junPct,
+    pctColor:'#2980b9',
+    status: junPct>=80?'green':junPct>=50?'yellow':'red',
+    cta: junPct>=80
+      ? '✅ Buen ritmo — Proyección en camino a meta'
+      : `⚡ Faltan ${metaMensual-junConfirmed} sesiones para la meta — Activar agenda o campaña de recordatorio`,
+    ctaCls: junPct>=80?'g':junPct>=50?'o':'r',
+    ctaLabel: junPct>=80?'En Meta':'Acción Requerida'
+  },
+  {
+    name:'Tasa de Retorno Global',
+    desc:'% clientes únicos que repiten con el mismo terapeuta',
+    val: avgReturnRate+'', unit:'%',
+    target:'Meta: ≥ 40%',
+    pct: Math.round((avgReturnRate/40)*100),
+    pctColor:'#4f7c6b',
+    status: avgReturnRate>=40?'green':avgReturnRate>=28?'yellow':'red',
+    cta:'📞 Nicolás Ibarra (24%) y Paulina Osorio (14%): implementar seguimiento post-sesión y contacto a los 30 días',
+    ctaCls:'o',
+    ctaLabel:'Atención'
+  },
+  {
+    name:'Concentración Operacional',
+    desc:'Riesgo si un terapeuta clave no puede trabajar',
+    val: gitaShare+'', unit:'% Gita',
+    target:'Límite seguro: < 35%',
+    pct: Math.round((gitaShare/35)*100),
+    pctColor:'#c0392b',
+    status:'red',
+    cta:'🔴 Gita concentra el 38% del total. Si no puede trabajar, pierdes 38% de capacidad — Capacitar terapeuta de respaldo para Terapia Energética',
+    ctaCls:'r',
+    ctaLabel:'Riesgo Alto'
+  },
+  {
+    name:'Captación de Nuevos Clientes',
+    desc:'Promedio mensual de clientes nuevos (primeras sesiones)',
+    val: newPerMonth+'', unit:'/mes',
+    target:'Meta: ≥ 20 nuevos/mes',
+    pct: Math.round((newPerMonth/20)*100),
+    pctColor:'#16a085',
+    status: newPerMonth>=20?'green':newPerMonth>=15?'yellow':'red',
+    cta: newPerMonth>=20
+      ? '✅ Buen flujo de nuevos clientes — Mantener estrategia de captación'
+      : '📣 Reforzar canales de captación: referidos de clientes VIP, redes sociales',
+    ctaCls: newPerMonth>=20?'g':'o',
+    ctaLabel: newPerMonth>=20?'Saludable':'Revisar'
+  },
+  {
+    name:'Fidelización de Clientes VIP',
+    desc:'5 clientes VIP (10+ sesiones/año) requieren atención activa',
+    val:'5', unit:' VIPs',
+    target:'Meta: 0 VIPs sin sesión en 30+ días',
+    pct: 60,
+    pctColor:'#c0392b',
+    status:'yellow',
+    cta:'👑 Revisar cuándo fue la última sesión de cada VIP. Si han pasado +30 días → contacto personalizado para reagendar',
+    ctaCls:'o',
+    ctaLabel:'Seguimiento'
+  },
+  {
+    name:'Diversificación de Servicios',
+    desc:'¿Depende el negocio de pocos servicios?',
+    val:'52', unit:'% top 3',
+    target:'Óptimo: top 3 < 60%',
+    pct: Math.round((52/60)*100),
+    pctColor:'#27ae60',
+    status:'green',
+    cta:'✅ Buena diversificación — Abhyanga+PREMIUM+Terapia Energética = 52%. Potenciar servicios de menor demanda con alta rentabilidad (Reflexología, Shiro Abhyanga)',
+    ctaCls:'g',
+    ctaLabel:'Saludable'
+  },
+];
+
+const sg = document.getElementById('smartGrid');
+smartData.forEach(s=>{
+  const pctClamped = Math.min(s.pct,100);
+  sg.innerHTML += `
+  <div class="smart-card">
+    <div class="smart-top">
+      <div class="smart-status">
+        <div class="smart-name">${s.name}</div>
+        <div class="traffic ${s.status}"></div>
+      </div>
+      <div style="font-size:11px;color:var(--mu);margin-bottom:10px">${s.desc}</div>
+      <div style="display:flex;align-items:baseline;gap:4px">
+        <div class="smart-val" style="color:${s.status==='green'?'var(--ok)':s.status==='yellow'?'var(--warn)':'var(--err)'}">${s.val}</div>
+        <div style="font-size:16px;color:var(--mu);font-weight:700">${s.unit}</div>
+      </div>
+      <div class="smart-target">${s.target}</div>
+      <div class="smart-progress-bg">
+        <div class="smart-progress-fill" style="width:${pctClamped}%;background:${s.pctColor}"></div>
+      </div>
+    </div>
+    <div class="smart-bottom">
+      <div class="smart-cta"><span class="cta-label ${s.ctaCls}">${s.ctaLabel}</span>${s.cta}</div>
+    </div>
+  </div>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 1. TABLAS JUNIO
+// ══════════════════════════════════════════════════════════════
+realized.forEach(s=>{
+  const isTest=s.client.includes('⚠️');
+  document.getElementById('tReal').innerHTML+=`<tr style="${isTest?'opacity:.5':''}">
+    <td><strong>${s.date}</strong></td>
+    <td style="color:var(--acc);font-weight:700">${s.time}</td>
+    <td>${s.svc}</td><td>${s.staff}</td>
+    <td>${s.client}</td>
+  </tr>`;
+});
+scheduled.forEach(s=>{
+  document.getElementById('tSched').innerHTML+=`<tr>
+    <td><strong style="color:var(--pri)">${s.date}</strong></td>
+    <td style="color:var(--warn);font-weight:700">${s.time}</td>
+    <td>${s.svc}</td><td>${s.staff}</td><td>${s.client}</td>
+  </tr>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 2. TENDENCIA MENSUAL (barras verticales)
+// ══════════════════════════════════════════════════════════════
+const maxM=Math.max(...monthly.map(m=>m.count));
+const chart=document.getElementById('monthChart');
+const labels=document.getElementById('monthLabels');
+monthly.forEach(m=>{
+  const h=Math.round((m.count/maxM)*100);
+  const col=m.partial?'#a0c4d8':m.count===maxM?'var(--ok)':m.count<=30?'var(--err)':'var(--pri)';
+  const bar=document.createElement('div');
+  bar.className='vbar';
+  bar.innerHTML=`<div class="vbar-fill" style="height:${h}%;background:${col}"><span class="vbar-tip">${m.count}${m.partial?'*':''}</span></div>`;
+  chart.appendChild(bar);
+  const lbl=document.createElement('div');
+  lbl.className='vbar';
+  lbl.innerHTML=`<div class="vbar-lbl">${m.label}</div>`;
+  labels.appendChild(lbl);
+});
+
+// ══════════════════════════════════════════════════════════════
+// 3. DONUTS TERAPEUTAS + FAMILIAS
+// ══════════════════════════════════════════════════════════════
+donut('dTer','lTer', terapeutas.map(t=>({n:t.name,v:t.total})), terapeutas.map(t=>t.color));
+donut('dFam','lFam', fams, PAL);
+donut('dFam2','lFam2', fams, PAL);
+
+// ══════════════════════════════════════════════════════════════
+// 4. VIP CARDS
+// ══════════════════════════════════════════════════════════════
+const vips = clientes.filter(c=>c.count>=10).slice(0,6);
+const vc = document.getElementById('vipCards');
+vips.forEach(c=>{
+  vc.innerHTML+=`<div class="vip-card">
+    <div class="vip-av">${c.name.charAt(0)}</div>
+    <div style="flex:1">
+      <div style="font-weight:700;font-size:14px">${c.name}</div>
+      <div style="font-size:12px;color:var(--mu);margin-top:2px">${c.count} sesiones en 12 meses</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        <div style="height:6px;background:#f0e8e0;border-radius:3px;flex:1">
+          <div style="height:100%;width:${Math.min(Math.round((c.count/29)*100),100)}%;background:var(--err);border-radius:3px"></div>
+        </div>
+        <span class="pill p-vip">👑 VIP</span>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:28px;font-weight:900;color:var(--err)">${c.count}</div>
+      <div style="font-size:10px;color:var(--mu)">sesiones</div>
+    </div>
+  </div>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 4. TABLA CLIENTES
+// ══════════════════════════════════════════════════════════════
+const maxC=clientes[0].count;
+clientes.forEach((c,i)=>{
+  const pct=Math.round((c.count/maxC)*100);
+  let cls,lbl;
+  if(c.count>=10){cls='p-vip';lbl='👑 VIP';}
+  else if(c.count>=6){cls='p-frec';lbl='⭐ Frecuente';}
+  else if(c.count>=3){cls='p-hab';lbl='💚 Habitual';}
+  else{cls='p-reg';lbl='🔵 Regular';}
+  document.getElementById('tCli').innerHTML+=`<tr>
+    <td>${rn(i)}</td><td><strong>${c.name}</strong></td>
+    <td><strong>${c.count}</strong></td>
+    <td><span class="pill ${cls}">${lbl}</span></td>
+    <td>${ib(pct,'var(--err)')}</td>
+  </tr>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 5. TABLA + TARJETAS TERAPEUTAS
+// ══════════════════════════════════════════════════════════════
+terapeutas.forEach((t,i)=>{
+  const share=((t.total/TOTAL_SESSIONS)*100).toFixed(1);
+  const top=t.top.slice(0,3).map(x=>`${x.n} (${x.c})`).join(' · ');
+  document.getElementById('tTer').innerHTML+=`<tr>
+    <td>${rn(i)}</td>
+    <td><strong style="color:${t.color}">${t.name}</strong></td>
+    <td><strong>${t.total}</strong></td>
+    <td>${ib(share,t.color)}</td>
+    <td>${t.uniq}</td>
+    <td>${rrBadge(t.rate)}</td>
+    <td style="font-size:12px;color:var(--mu)">${top}</td>
+  </tr>`;
+});
+
+const tc=document.getElementById('terCards');
+terapeutas.forEach(t=>{
+  const share=((t.total/TOTAL_SESSIONS)*100).toFixed(1);
+  const rrC=t.rate>=40?'rr-hi':t.rate>=25?'rr-mi':'rr-lo';
+  const topHtml=t.top.map((x,i)=>`<div class="ter-tr"><span>${i===0?'🥇':i===1?'🥈':'🥉'} ${x.n}</span><strong style="color:${t.color}">${x.c}</strong></div>`).join('');
+  tc.innerHTML+=`<div class="ter-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div class="ter-av" style="background:${t.color}">${t.name.charAt(0)}</div>
+      <div><div style="font-size:16px;font-weight:700">${t.name}</div>
+      <div style="font-size:11px;color:var(--mu)">${t.total} ses. · ${t.uniq} clientes · ${share}% del total</div></div>
+    </div>
+    <div class="ter-sg">
+      <div class="ter-s"><div class="ter-sv" style="color:${t.color}">${t.total}</div><div class="ter-sl">Sesiones</div></div>
+      <div class="ter-s"><div class="ter-sv">${t.uniq}</div><div class="ter-sl">Únicos</div></div>
+      <div class="ter-s"><div class="ter-sv"><span class="rr ${rrC}" style="font-size:16px">${t.rate}%</span></div><div class="ter-sl">Retorno</div></div>
+    </div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:3px">Top Terapias</div>
+    ${topHtml}
+  </div>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 5b. PIRÁMIDE DE FIDELIZACIÓN POR TERAPEUTA
+// ══════════════════════════════════════════════════════════════
+const fidelizacion = {
+  'Gita': {
+    totalClients:125, color:'#8b5e3c',
+    leal:     { count:1,  pct:1,  top:[{name:'Melina Gambin',sessions:7}] },
+    frecuente:{ count:14, pct:11, top:[{name:'Joanna Arizabalo',sessions:6},{name:'Pilar Munitiz',sessions:6},{name:'Catalina Yañez',sessions:5}] },
+    habitual: { count:28, pct:22, top:[{name:'Cecilia Carvajal',sessions:3},{name:'Luz Sierra',sessions:3},{name:'Isabel Castillo',sessions:3}] },
+    unavez:   { count:82, pct:66, top:[] },
+  },
+  'Esteban Gauna': {
+    totalClients:58, color:'#4f7c6b',
+    leal:     { count:6,  pct:10, top:[{name:'Marcos Inostroza',sessions:31},{name:'Melina Gambin',sessions:16},{name:'Maria de los Ángeles García',sessions:16}] },
+    frecuente:{ count:6,  pct:10, top:[{name:'Milena Meza',sessions:6},{name:'María Ignacia Undurraga',sessions:5},{name:'Susana Cox',sessions:5}] },
+    habitual: { count:9,  pct:16, top:[{name:'Marcela Nercam',sessions:3},{name:'Rodrigo González',sessions:3},{name:'Vania Araníbar',sessions:2}] },
+    unavez:   { count:37, pct:64, top:[] },
+  },
+  'Nicolás Ibarra': {
+    totalClients:72, color:'#d4956a',
+    leal:     { count:1,  pct:1,  top:[{name:'Vania Araníbar',sessions:7}] },
+    frecuente:{ count:3,  pct:4,  top:[{name:'Maria Teresa Molina',sessions:6},{name:'Marcela Nercam',sessions:5},{name:'Joanna Arizabalo',sessions:4}] },
+    habitual: { count:12, pct:17, top:[{name:'Adrian Guibernau',sessions:3},{name:'Maria Ignacia Flores',sessions:2},{name:'Luis Soto',sessions:2}] },
+    unavez:   { count:56, pct:78, top:[] },
+  },
+  'Consuelo Silva': {
+    totalClients:19, color:'#16a085',
+    leal:     { count:0,  pct:0,  top:[] },
+    frecuente:{ count:2,  pct:11, top:[{name:'Claudia Farjat',sessions:6},{name:'Charlotte Hannir',sessions:6}] },
+    habitual: { count:4,  pct:21, top:[{name:'Vania Araníbar',sessions:2},{name:'Brenda Paredes',sessions:2},{name:'Melina Gambin',sessions:2}] },
+    unavez:   { count:13, pct:68, top:[] },
+  },
+  'Vishvanath': {
+    totalClients:20, color:'#c49a6c',
+    leal:     { count:0,  pct:0,  top:[] },
+    frecuente:{ count:0,  pct:0,  top:[] },
+    habitual: { count:5,  pct:25, top:[{name:'Cecilia Rozas',sessions:3},{name:'Liliana Ñanco',sessions:3},{name:'Daniela Pérez',sessions:3}] },
+    unavez:   { count:15, pct:75, top:[] },
+  },
+  'Paulina Osorio': {
+    totalClients:14, color:'#a0522d',
+    leal:     { count:0,  pct:0,  top:[] },
+    frecuente:{ count:0,  pct:0,  top:[] },
+    habitual: { count:2,  pct:14, top:[{name:'María José Durán',sessions:2},{name:'María Ignacia Undurraga',sessions:2}] },
+    unavez:   { count:12, pct:86, top:[] },
+  },
+};
+
+const fidEl = document.getElementById('fidCards');
+Object.entries(fidelizacion).forEach(([name, d]) => {
+  const opp = d.unavez.count; // clientes con solo 1 visita = oportunidad de conversión
+  const loyal = d.leal.count + d.frecuente.count; // "base fiel"
+  const loyalPct = Math.round((loyal/d.totalClients)*100);
+
+  // Stacked bar segments
+  const segs = [
+    {key:'leal',     label:'👑 Leal',     pct:d.leal.pct,     col:'#c0392b', count:d.leal.count,      top:d.leal.top},
+    {key:'frecuente',label:'⭐ Frecuente', pct:d.frecuente.pct, col:'#e67e22', count:d.frecuente.count, top:d.frecuente.top},
+    {key:'habitual', label:'💚 Habitual',  pct:d.habitual.pct,  col:'#27ae60', count:d.habitual.count,  top:d.habitual.top},
+    {key:'unavez',   label:'🔵 Una vez',   pct:d.unavez.pct,    col:'#2980b9', count:d.unavez.count,    top:[]},
+  ];
+
+  const stackedBar = segs.map(s =>
+    s.pct > 0 ? `<div title="${s.label}: ${s.count} clientes (${s.pct}%)" style="flex:${s.pct};height:100%;background:${s.col};min-width:4px;position:relative">
+      ${s.pct>=8?`<span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:10px;font-weight:700;color:#fff;white-space:nowrap">${s.pct}%</span>`:''}
+    </div>` : ''
+  ).join('');
+
+  const topClientsHtml = segs.filter(s=>s.top.length>0).map(s=>
+    `<div style="margin-bottom:8px">
+      <div style="font-size:10px;font-weight:700;color:${s.col};text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">${s.label}</div>
+      ${s.top.map(c=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:2px 0;border-bottom:1px solid var(--bd)">
+        <span>${c.name}</span><strong>${c.sessions} ses.</strong>
+      </div>`).join('')}
+    </div>`
+  ).join('');
+
+  fidEl.innerHTML += `
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:${d.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0">${name.charAt(0)}</div>
+        <div>
+          <div style="font-size:16px;font-weight:700">${name}</div>
+          <div style="font-size:11px;color:var(--mu)">${d.totalClients} clientes únicos · Base fiel (Leal+Frecuente): <strong style="color:${loyalPct>=20?'var(--ok)':'var(--warn)'}">${loyalPct}%</strong></div>
+        </div>
+      </div>
+      <div style="background:#fef9f3;border:1px solid #f0d9b5;border-radius:8px;padding:8px 14px;text-align:center">
+        <div style="font-size:20px;font-weight:800;color:var(--info)">${opp}</div>
+        <div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px">Oportunidad<br>de retorno</div>
+      </div>
+    </div>
+
+    <!-- Barra apilada -->
+    <div style="height:36px;border-radius:8px;overflow:hidden;display:flex;margin-bottom:12px">${stackedBar}</div>
+
+    <!-- Leyenda numérica -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+      ${segs.map(s=>`<div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px 4px">
+        <div style="font-size:18px;font-weight:800;color:${s.col}">${s.count}</div>
+        <div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;line-height:1.3">${s.label.replace('👑 ','').replace('⭐ ','').replace('💚 ','').replace('🔵 ','')}</div>
+        <div style="font-size:11px;font-weight:700;color:${s.col}">${s.pct}%</div>
+      </div>`).join('')}
+    </div>
+
+    <!-- Top clientes por segmento -->
+    ${topClientsHtml ? `<div style="border-top:1px solid var(--bd);padding-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:8px">Top clientes por segmento</div><div style="columns:2;gap:20px">${topClientsHtml}</div></div>` : ''}
+  </div>`;
+});
+
+// ══════════════════════════════════════════════════════════════
+// 6. RANKING BARRAS + TABLA
+// ══════════════════════════════════════════════════════════════
+const maxS=servicios[0].c;
+servicios.slice(0,10).forEach((s,i)=>{
+  const pct=Math.round((s.c/maxS)*100);
+  document.getElementById('bcSvc').innerHTML+=`
+    <div style="display:grid;grid-template-columns:180px 1fr 30px;align-items:center;gap:8px">
+      <div style="font-size:12px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${s.n}">${s.n}</div>
+      <div style="height:18px;background:#f0e8e0;border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${PAL[i%PAL.length]};border-radius:4px"></div>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:var(--mu)">${s.c}</div>
+    </div>`;
+});
+
+const totSvc=servicios.reduce((a,s)=>a+s.c,0);
+servicios.forEach((s,i)=>{
+  const pct=((s.c/totSvc)*100).toFixed(1);
+  document.getElementById('tSvc').innerHTML+=`<tr>
+    <td>${rn(i)}</td><td>${s.n}</td>
+    <td><strong>${s.c}</strong></td><td>${pct}%</td>
+    <td>${ib(pct,PAL[i%PAL.length])}</td>
+  </tr>`;
+});
+</script>
+</body>
+</html>
