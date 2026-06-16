@@ -81,6 +81,8 @@ header{background:linear-gradient(135deg,#5c3317,#3b1f0a);color:#fff;
 .seg-n{font-size:42px;font-weight:900;line-height:1}
 .seg-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.9;margin-top:4px}
 .seg-crit{font-size:11px;opacity:.75;margin-top:3px}
+.seg-sub{font-size:11px;margin-top:6px;font-weight:600;opacity:.95}
+.seg-ok{color:#a8ffc4}.seg-rk{color:#ffb3b3}
 .seg-vip{background:linear-gradient(135deg,#8b1a1a,#c0392b)}
 .seg-frec{background:linear-gradient(135deg,#6d4c1b,#e67e22)}
 .seg-hab{background:linear-gradient(135deg,#1a5c3a,#27ae60)}
@@ -149,7 +151,7 @@ tbody tr:hover{background:#fdf9f6}
 .ter-tr{display:flex;align-items:center;justify-content:space-between;
   padding:5px 0;border-top:1px solid var(--bd);font-size:12px}
 
-/* ── VIP LIST ── */
+/* ── LEAL LIST ── */
 .vip-card{background:linear-gradient(135deg,#fff8f5,#fff);border:1px solid #f0d9c0;
   border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px}
 .vip-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#8b1a1a,#c0392b);
@@ -307,41 +309,45 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--mu);
 <div class="seg-grid" style="margin-bottom:18px">
   <div class="seg seg-vip">
     <div class="seg-ico">👑</div>
-    <div class="seg-n">6</div>
-    <div class="seg-lbl">VIP</div>
-    <div class="seg-crit">10+ sesiones / año</div>
+    <div class="seg-n">11</div>
+    <div class="seg-lbl">Leal</div>
+    <div class="seg-crit">7+ sesiones / año</div>
+    <div class="seg-sub"><span class="seg-ok">7 activos</span> · <span class="seg-rk">4 en riesgo</span></div>
   </div>
   <div class="seg seg-frec">
     <div class="seg-ico">⭐</div>
-    <div class="seg-n">14</div>
+    <div class="seg-n">23</div>
     <div class="seg-lbl">Frecuente</div>
-    <div class="seg-crit">6–9 sesiones / año</div>
+    <div class="seg-crit">4–6 sesiones / año</div>
+    <div class="seg-sub"><span class="seg-ok">13 activos</span> · <span class="seg-rk">10 en riesgo</span></div>
   </div>
   <div class="seg seg-hab">
     <div class="seg-ico">💚</div>
-    <div class="seg-n">43</div>
+    <div class="seg-n">52</div>
     <div class="seg-lbl">Habitual</div>
-    <div class="seg-crit">3–5 sesiones / año</div>
+    <div class="seg-crit">2–3 sesiones / año</div>
+    <div class="seg-sub"><span class="seg-ok">16 activos</span> · <span class="seg-rk">36 en riesgo</span></div>
   </div>
   <div class="seg seg-reg">
     <div class="seg-ico">🔵</div>
-    <div class="seg-n">195</div>
-    <div class="seg-lbl">Regular</div>
-    <div class="seg-crit">1–2 sesiones / año</div>
+    <div class="seg-n">138</div>
+    <div class="seg-lbl">Una vez</div>
+    <div class="seg-crit">1 sesión / año</div>
+    <div class="seg-sub">224 clientes únicos total</div>
   </div>
 </div>
 
-<!-- VIP Cards -->
+<!-- Leal Cards -->
 <div class="tbl-h" style="background:transparent;padding:0;margin-bottom:12px;box-shadow:none">
-  Clientes VIP — Requieren seguimiento activo <span class="badge r">5 VIPs reales</span>
+  Clientes Leal — Requieren seguimiento activo <span class="badge r">11 Leales · 4 en riesgo</span>
 </div>
 <div class="vip-grid" style="margin-bottom:18px" id="vipCards"></div>
 
 <!-- Top 20 table -->
 <div class="tbl">
-  <div class="tbl-h">Top 20 Clientes — 12 Meses <span class="badge o">258 clientes únicos</span></div>
+  <div class="tbl-h">Top 20 Clientes — 12 Meses <span class="badge o">224 clientes únicos</span></div>
   <table>
-    <thead><tr><th>#</th><th>Cliente</th><th>Sesiones</th><th>Clasificación</th><th>Indicador</th></tr></thead>
+    <thead><tr><th>#</th><th>Cliente</th><th>Sesiones</th><th>Clasificación</th><th>Última Visita</th><th>Indicador</th></tr></thead>
     <tbody id="tCli"></tbody>
   </table>
 </div>
@@ -489,29 +495,28 @@ const famMap = {};
 servicios.forEach(s=>{ famMap[s.fam]=(famMap[s.fam]||0)+s.c; });
 const fams = Object.entries(famMap).sort((a,b)=>b[1]-a[1]).map(([n,v])=>({n,v}));
 
-// CLIENTES (12 meses, Marcos Inostroza incluido con nombre real)
+// CLIENTES (12 meses, datos frescos Jun 2026 — 224 únicos, 543 sesiones)
 const clientes = [
-  {name:'Marcos Inostroza',            count:32},
-  {name:'Melina Gambin',               count:29},
-  {name:'Maria de los Ángeles García', count:20},
-  {name:'Vania Araníbar',              count:13},
-  {name:'Joanna Arizabalo Silva',      count:11},
-  {name:'Marcela Nercam',              count:10},
-  {name:'Pilar Munitiz Navarrete',     count:9},
-  {name:'Isabella Solari Irribarra',   count:8},
-  {name:'María Nelly Liendo',          count:8},
-  {name:'Claudia Farjat',              count:7},
-  {name:'Gabriela Vilches',            count:7},
-  {name:'María Ignacia Undurraga',     count:7},
-  {name:'Maria Teresa Molina',         count:7},
-  {name:'Charlotte Hannir',            count:7},
-  {name:'Anja Lowenstein Bauerle',     count:7},
-  {name:'Milena Meza',                 count:6},
-  {name:'Nathalia Urquejo',            count:6},
-  {name:'Cecilia Carvajal Urzua',      count:6},
-  {name:'Milagros Rotger',             count:6},
-  {name:'Jeannette Vargas',            count:6},
-  {name:'Catalina Yañez',              count:5},
+  {name:'Marcos Inostroza',            count:31, lastVisit:'2026-06-12'},
+  {name:'Maria de los Ángeles García', count:26, lastVisit:'2026-05-05'},
+  {name:'Melina Gambin',               count:23, lastVisit:'2026-05-28'},
+  {name:'Felipe Vargas',               count:16, lastVisit:'2026-05-23'},
+  {name:'Anja Lowenstein Bauerle',     count:13, lastVisit:'2025-11-18'},
+  {name:'Joanna Arizabalo Silva',      count:11, lastVisit:'2026-02-17'},
+  {name:'Vania Araníbar',              count:11, lastVisit:'2026-07-01'},
+  {name:'Susana Paoletto',             count:10, lastVisit:'2026-01-08'},
+  {name:'Charlotte Hannir',            count:9,  lastVisit:'2026-03-31'},
+  {name:'Diego Lillo',                 count:6,  lastVisit:'2026-06-17'},
+  {name:'Xaviera López Liendo',        count:6,  lastVisit:'2026-05-14'},
+  {name:'Cecilia Carvajal Urzua',      count:6,  lastVisit:'2026-05-06'},
+  {name:'Milena Meza',                 count:6,  lastVisit:'2026-06-25'},
+  {name:'Jeannette Vargas',            count:6,  lastVisit:'2025-11-27'},
+  {name:'Gabriela Vilches',            count:5,  lastVisit:'2026-06-18'},
+  {name:'Patricia Mora',               count:5,  lastVisit:'2025-11-20'},
+  {name:'Pilar Munitiz Navarrete',     count:5,  lastVisit:'2025-11-21'},
+  {name:'Eduardo',                     count:5,  lastVisit:'2026-01-09'},
+  {name:'Amzi Delgado',                count:5,  lastVisit:'2025-07-31'},
+  {name:'Belem Rauld',                 count:3,  lastVisit:'2026-05-20'},
 ];
 
 // SESIONES JUNIO (actualizado al 13 jun 2026)
@@ -636,19 +641,19 @@ const smartData = [
     status: newPerMonth>=20?'green':newPerMonth>=15?'yellow':'red',
     cta: newPerMonth>=20
       ? '✅ Buen flujo de nuevos clientes — Mantener estrategia de captación'
-      : '📣 Reforzar canales de captación: referidos de clientes VIP, redes sociales',
+      : '📣 Reforzar canales de captación: referidos de clientes Leal, redes sociales',
     ctaCls: newPerMonth>=20?'g':'o',
     ctaLabel: newPerMonth>=20?'Saludable':'Revisar'
   },
   {
-    name:'Fidelización de Clientes VIP',
-    desc:'5 clientes VIP (10+ sesiones/año) requieren atención activa',
-    val:'5', unit:' VIPs',
-    target:'Meta: 0 VIPs sin sesión en 30+ días',
-    pct: 60,
+    name:'Fidelización de Clientes Leal',
+    desc:'11 clientes Leal (7+ sesiones/año) · 4 en riesgo sin sesión en 60+ días',
+    val:'4', unit:' en riesgo',
+    target:'Meta: 0 Leales sin sesión en 60+ días',
+    pct: Math.round((4/11)*100),
     pctColor:'#c0392b',
     status:'yellow',
-    cta:'👑 Revisar cuándo fue la última sesión de cada VIP. Si han pasado +30 días → contacto personalizado para reagendar',
+    cta:'👑 Contactar: Anja Lowenstein, Joanna Arizabalo, Susana Paoletto, Charlotte Hannir — sin sesión desde antes de Abr 2026 → reagendar con prioridad alta',
     ctaCls:'o',
     ctaLabel:'Seguimiento'
   },
@@ -739,26 +744,35 @@ donut('dFam','lFam', fams, PAL);
 donut('dFam2','lFam2', fams, PAL);
 
 // ══════════════════════════════════════════════════════════════
-// 4. VIP CARDS
+// 4. LEAL CARDS
 // ══════════════════════════════════════════════════════════════
-const vips = clientes.filter(c=>c.count>=10).slice(0,6);
+const CUTOFF = new Date('2026-04-14'); // 60 días antes del 13 Jun 2026
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const leales = clientes.filter(c=>c.count>=7);
 const vc = document.getElementById('vipCards');
-vips.forEach(c=>{
+leales.forEach(c=>{
+  const lv = c.lastVisit ? new Date(c.lastVisit+'T00:00:00') : null;
+  const isRisk = lv && lv < CUTOFF;
+  const statusTxt = isRisk ? '⚠️ En riesgo' : '✅ Activo';
+  const statusCol = isRisk ? 'var(--err)' : 'var(--ok)';
+  const lvTxt = lv ? `${lv.getDate()} ${MESES[lv.getMonth()]} ${lv.getFullYear()}` : '—';
   vc.innerHTML+=`<div class="vip-card">
-    <div class="vip-av">${c.name.charAt(0)}</div>
+    <div class="vip-av" style="background:${statusCol}">${c.name.charAt(0)}</div>
     <div style="flex:1">
       <div style="font-weight:700;font-size:14px">${c.name}</div>
       <div style="font-size:12px;color:var(--mu);margin-top:2px">${c.count} sesiones en 12 meses</div>
       <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
         <div style="height:6px;background:#f0e8e0;border-radius:3px;flex:1">
-          <div style="height:100%;width:${Math.min(Math.round((c.count/29)*100),100)}%;background:var(--err);border-radius:3px"></div>
+          <div style="height:100%;width:${Math.min(Math.round((c.count/31)*100),100)}%;background:${statusCol};border-radius:3px"></div>
         </div>
-        <span class="pill p-vip">👑 VIP</span>
+        <span class="pill p-vip">👑 Leal</span>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="font-size:28px;font-weight:900;color:var(--err)">${c.count}</div>
+      <div style="font-size:28px;font-weight:900;color:${statusCol}">${c.count}</div>
       <div style="font-size:10px;color:var(--mu)">sesiones</div>
+      <div style="font-size:11px;color:${statusCol};font-weight:700;margin-top:4px">${statusTxt}</div>
+      <div style="font-size:10px;color:var(--mu)">Últ: ${lvTxt}</div>
     </div>
   </div>`;
 });
@@ -769,15 +783,20 @@ vips.forEach(c=>{
 const maxC=clientes[0].count;
 clientes.forEach((c,i)=>{
   const pct=Math.round((c.count/maxC)*100);
+  const lv2 = c.lastVisit ? new Date(c.lastVisit+'T00:00:00') : null;
+  const isRisk2 = lv2 && lv2 < CUTOFF;
+  const lvTxt2 = lv2 ? `${lv2.getDate()} ${MESES[lv2.getMonth()]} ${lv2.getFullYear()}` : '—';
+  const lvCol = !lv2 ? 'var(--mu)' : isRisk2 ? 'var(--err)' : 'var(--ok)';
   let cls,lbl;
-  if(c.count>=10){cls='p-vip';lbl='👑 VIP';}
-  else if(c.count>=6){cls='p-frec';lbl='⭐ Frecuente';}
-  else if(c.count>=3){cls='p-hab';lbl='💚 Habitual';}
-  else{cls='p-reg';lbl='🔵 Regular';}
+  if(c.count>=7){cls='p-vip';lbl=isRisk2?'👑 Leal ⚠️':'👑 Leal';}
+  else if(c.count>=4){cls='p-frec';lbl=isRisk2?'⭐ Frecuente ⚠️':'⭐ Frecuente';}
+  else if(c.count>=2){cls='p-hab';lbl=isRisk2?'💚 Habitual ⚠️':'💚 Habitual';}
+  else{cls='p-reg';lbl='🔵 Una vez';}
   document.getElementById('tCli').innerHTML+=`<tr>
     <td>${rn(i)}</td><td><strong>${c.name}</strong></td>
     <td><strong>${c.count}</strong></td>
     <td><span class="pill ${cls}">${lbl}</span></td>
+    <td style="font-size:12px;color:${lvCol};font-weight:600">${lvTxt2}</td>
     <td>${ib(pct,'var(--err)')}</td>
   </tr>`;
 });
