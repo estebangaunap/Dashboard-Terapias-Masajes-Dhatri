@@ -281,6 +281,55 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--mu);
   </div>
 </div>
 
+<!-- Junio: distribución detallada -->
+<div class="g2" style="margin-bottom:16px">
+  <div class="card">
+    <h3>Por Terapeuta — Junio 2026</h3>
+    <div class="sub">47 sesiones · distribución por terapeuta</div>
+    <div class="donut-w">
+      <div class="donut" id="dJunTer"></div>
+      <div class="dleg" id="lJunTer"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Por Servicio — Junio 2026</h3>
+    <div class="sub">47 sesiones · agrupadas por tipo de terapia</div>
+    <div class="donut-w">
+      <div class="donut" id="dJunSvc"></div>
+      <div class="dleg" id="lJunSvc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="g2" style="margin-bottom:16px">
+  <div class="card">
+    <h3>Clientes por Segmento — Junio 2026</h3>
+    <div class="sub">39 clientes únicos · distribución por nivel de fidelización</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px" id="junSegBars"></div>
+  </div>
+  <div class="card">
+    <h3>Comparación Junio vs Mayo 2026</h3>
+    <div class="sub">Variación mes a mes en indicadores clave</div>
+    <table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:12px">
+      <thead><tr style="border-bottom:2px solid var(--bd)">
+        <th style="text-align:left;padding:6px 4px;color:var(--mu)">Indicador</th>
+        <th style="text-align:center;padding:6px 4px;color:var(--mu)">Mayo</th>
+        <th style="text-align:center;padding:6px 4px;color:var(--mu)">Junio</th>
+        <th style="text-align:center;padding:6px 4px;color:var(--mu)">Var.</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--bd)"><td style="padding:7px 4px;font-weight:600">Sesiones totales</td><td style="text-align:center;padding:7px 4px">78</td><td style="text-align:center;padding:7px 4px">47</td><td style="text-align:center;padding:7px 4px"><span class="dn">-40%</span></td></tr>
+        <tr style="border-bottom:1px solid var(--bd)"><td style="padding:7px 4px;font-weight:600">Terapeuta top</td><td style="text-align:center;padding:7px 4px">Gita</td><td style="text-align:center;padding:7px 4px">Gita (17)</td><td style="text-align:center;padding:7px 4px">—</td></tr>
+        <tr style="border-bottom:1px solid var(--bd)"><td style="padding:7px 4px;font-weight:600">Servicio top</td><td style="text-align:center;padding:7px 4px">Abhyanga</td><td style="text-align:center;padding:7px 4px">Abhyanga (22)</td><td style="text-align:center;padding:7px 4px">—</td></tr>
+        <tr style="border-bottom:1px solid var(--bd)"><td style="padding:7px 4px;font-weight:600">Clientes únicos</td><td style="text-align:center;padding:7px 4px">~55 est.</td><td style="text-align:center;padding:7px 4px">39</td><td style="text-align:center;padding:7px 4px"><span class="dn">-29%</span></td></tr>
+        <tr style="border-bottom:1px solid var(--bd)"><td style="padding:7px 4px;font-weight:600">Clientes nuevos</td><td style="text-align:center;padding:7px 4px">n/d</td><td style="text-align:center;padding:7px 4px">18</td><td style="text-align:center;padding:7px 4px">—</td></tr>
+        <tr><td style="padding:7px 4px;font-weight:600">vs promedio 12m</td><td style="text-align:center;padding:7px 4px"><span class="up">+59%</span></td><td style="text-align:center;padding:7px 4px"><span class="dn">-4%</span></td><td style="text-align:center;padding:7px 4px">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 12 meses -->
 <div class="g2">
   <div class="card">
     <h3>Por Terapeuta — 12 meses</h3>
@@ -721,6 +770,53 @@ monthly.forEach(m=>{
 donut('dTer','lTer', terapeutas.map(t=>({n:t.name,v:t.total})), terapeutas.map(t=>t.color));
 donut('dFam','lFam', fams, PAL);
 donut('dFam2','lFam2', fams, PAL);
+
+// ══════════════════════════════════════════════════════════════
+// 3b. DONUTS JUNIO 2026
+// ══════════════════════════════════════════════════════════════
+const junTer = [
+  {n:'Gita',          v:17},
+  {n:'Esteban Gauna', v:15},
+  {n:'Nicolás Ibarra',v:9},
+  {n:'Consuelo Silva',v:4},
+  {n:'Vishvanath',    v:2}
+];
+const junSvc = [
+  {n:'Abhyanga PREMIUM',      v:15},
+  {n:'Terapia Energética',    v:7},
+  {n:'Masaje Abhyanga',       v:7},
+  {n:'Abhyanga + Baño vapor', v:4},
+  {n:'Relajación',            v:3},
+  {n:'Descontracturante',     v:3},
+  {n:'Consultoría Ayurveda',  v:3},
+  {n:'Shiro Abhyanga',        v:2},
+  {n:'Udvartana',             v:2},
+  {n:'Reflexología',          v:1}
+];
+donut('dJunTer','lJunTer', junTer, TCOL);
+donut('dJunSvc','lJunSvc', junSvc, PAL);
+
+// Barras segmento clientes Junio
+const junSegData = [
+  {lbl:'🆕 Primera vez (nuevos)', n:18, color:'#2980b9'},
+  {lbl:'👑 Leal (7+ ses.)',       n:7,  color:'#c0392b'},
+  {lbl:'💚 Habitual (2–3 ses.)',  n:6,  color:'#27ae60'},
+  {lbl:'🔵 Retorno 1 visita',     n:5,  color:'#95a5a6'},
+  {lbl:'⭐ Frecuente (4–6 ses.)', n:3,  color:'#e67e22'},
+];
+const TOT_JUN_CLI = 39;
+const junSegEl = document.getElementById('junSegBars');
+if(junSegEl) junSegData.forEach(s=>{
+  const pct = Math.round((s.n/TOT_JUN_CLI)*100);
+  junSegEl.innerHTML+=`<div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px">
+      <span>${s.lbl}</span><strong>${s.n} <span style="color:var(--mu);font-weight:400">(${pct}%)</span></strong>
+    </div>
+    <div style="height:9px;background:#f0e8e0;border-radius:5px;overflow:hidden">
+      <div style="height:100%;width:${pct}%;background:${s.color};border-radius:5px;transition:width .5s"></div>
+    </div>
+  </div>`;
+});
 
 // ══════════════════════════════════════════════════════════════
 // 4. LEAL CARDS
