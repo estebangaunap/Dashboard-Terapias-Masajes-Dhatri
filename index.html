@@ -309,43 +309,43 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--mu);
 <div class="seg-grid" style="margin-bottom:18px">
   <div class="seg seg-vip">
     <div class="seg-ico">👑</div>
-    <div class="seg-n">10</div>
+    <div class="seg-n">12</div>
     <div class="seg-lbl">Leal</div>
     <div class="seg-crit">7+ sesiones / año</div>
-    <div class="seg-sub"><span class="seg-ok">6 activos</span> · <span class="seg-rk">4 en riesgo</span></div>
+    <div class="seg-sub"><span class="seg-ok">7 activos</span> · <span class="seg-rk">5 en riesgo</span></div>
   </div>
   <div class="seg seg-frec">
     <div class="seg-ico">⭐</div>
-    <div class="seg-n">23</div>
+    <div class="seg-n">19</div>
     <div class="seg-lbl">Frecuente</div>
     <div class="seg-crit">4–6 sesiones / año</div>
-    <div class="seg-sub"><span class="seg-ok">13 activos</span> · <span class="seg-rk">10 en riesgo</span></div>
+    <div class="seg-sub"><span class="seg-ok">8 activos</span> · <span class="seg-rk">11 en riesgo</span></div>
   </div>
   <div class="seg seg-hab">
     <div class="seg-ico">💚</div>
-    <div class="seg-n">52</div>
+    <div class="seg-n">56</div>
     <div class="seg-lbl">Habitual</div>
     <div class="seg-crit">2–3 sesiones / año</div>
-    <div class="seg-sub"><span class="seg-ok">16 activos</span> · <span class="seg-rk">36 en riesgo</span></div>
+    <div class="seg-sub"><span class="seg-ok">14 activos</span> · <span class="seg-rk">42 en riesgo</span></div>
   </div>
   <div class="seg seg-reg">
     <div class="seg-ico">🔵</div>
-    <div class="seg-n">138</div>
+    <div class="seg-n">143</div>
     <div class="seg-lbl">Una vez</div>
     <div class="seg-crit">1 sesión / año</div>
-    <div class="seg-sub">224 clientes únicos total</div>
+    <div class="seg-sub">230 clientes únicos total</div>
   </div>
 </div>
 
 <!-- Leal Cards -->
 <div class="tbl-h" style="background:transparent;padding:0;margin-bottom:12px;box-shadow:none">
-  Clientes Leal — Requieren seguimiento activo <span class="badge r">10 Leales · 4 en riesgo</span>
+  Clientes Leal — Requieren seguimiento activo <span class="badge r">12 Leales · 5 en riesgo</span>
 </div>
 <div class="vip-grid" style="margin-bottom:18px" id="vipCards"></div>
 
 <!-- Top 20 table -->
 <div class="tbl">
-  <div class="tbl-h">Top 20 Clientes — 12 Meses <span class="badge o">224 clientes únicos</span></div>
+  <div class="tbl-h">Top 20 Clientes — 12 Meses <span class="badge o">230 clientes únicos</span></div>
   <table>
     <thead><tr><th>#</th><th>Cliente</th><th>Sesiones</th><th>Clasificación</th><th>Última Visita</th><th>Indicador</th></tr></thead>
     <tbody id="tCli"></tbody>
@@ -495,27 +495,28 @@ const famMap = {};
 servicios.forEach(s=>{ famMap[s.fam]=(famMap[s.fam]||0)+s.c; });
 const fams = Object.entries(famMap).sort((a,b)=>b[1]-a[1]).map(([n,v])=>({n,v}));
 
-// CLIENTES (12 meses, datos frescos Jun 2026 — 224 únicos, 543 sesiones)
+// CLIENTES (12 meses, datos frescos Jul 2026 — 230 únicos)
 const clientes = [
   {name:'Marcos Inostroza',            count:31, lastVisit:'2026-06-12'},
   {name:'Maria de los Ángeles García', count:26, lastVisit:'2026-05-05'},
-  {name:'Melina Gambin',               count:23, lastVisit:'2026-05-28'},
+  {name:'Melina Gambin',               count:23, lastVisit:'2026-06-23'},
   {name:'Anja Lowenstein Bauerle',     count:13, lastVisit:'2025-11-18'},
   {name:'Joanna Arizabalo Silva',      count:11, lastVisit:'2026-02-17'},
   {name:'Vania Araníbar',              count:11, lastVisit:'2026-07-01'},
-  {name:'Susana Paoletto',             count:10, lastVisit:'2026-01-08'},
+  {name:'Isabella Solari Irribarra',   count:10, lastVisit:'2026-05-29'},
+  {name:'Susana Paoletto',             count:9,  lastVisit:'2026-01-08'},
   {name:'Charlotte Hannir',            count:9,  lastVisit:'2026-03-31'},
-  {name:'Diego Lillo',                 count:6,  lastVisit:'2026-06-17'},
-  {name:'Xaviera López Liendo',        count:6,  lastVisit:'2026-05-14'},
-  {name:'Cecilia Carvajal Urzua',      count:6,  lastVisit:'2026-05-06'},
-  {name:'Milena Meza',                 count:6,  lastVisit:'2026-06-25'},
+  {name:'María Ignacia Undurraga',     count:8,  lastVisit:'2026-06-11'},
+  {name:'Cecilia Carvajal Urzua',      count:7,  lastVisit:'2026-06-23'},
+  {name:'Diego Lillo',                 count:7,  lastVisit:'2026-06-17'},
   {name:'Jeannette Vargas',            count:6,  lastVisit:'2025-11-27'},
-  {name:'Gabriela Vilches',            count:5,  lastVisit:'2026-06-18'},
-  {name:'Patricia Mora',               count:5,  lastVisit:'2025-11-20'},
-  {name:'Pilar Munitiz Navarrete',     count:5,  lastVisit:'2025-11-21'},
-  {name:'Eduardo',                     count:5,  lastVisit:'2026-01-09'},
+  {name:'Xaviera López Liendo',        count:6,  lastVisit:'2026-05-14'},
+  {name:'Milena Meza',                 count:6,  lastVisit:'2026-06-25'},
   {name:'Amzi Delgado',                count:5,  lastVisit:'2025-07-31'},
-  {name:'Belem Rauld',                 count:3,  lastVisit:'2026-05-20'},
+  {name:'Eduardo',                     count:5,  lastVisit:'2026-01-09'},
+  {name:'Gabriela Vilches',            count:5,  lastVisit:'2026-06-18'},
+  {name:'Marcela Nercam',              count:5,  lastVisit:'2026-05-23'},
+  {name:'Nathalia Urquejo',            count:5,  lastVisit:'2026-05-19'},
 ];
 
 // SESIONES JUNIO (actualizado al 22 jun 2026)
@@ -595,7 +596,7 @@ const junConfirmed = 47;
 const junPct = Math.round((junConfirmed/metaMensual)*100);
 const gitaShare = Math.round((229/TOTAL_SESSIONS)*100);
 const avgReturnRate = Math.round(terapeutas.slice(0,4).reduce((a,t)=>a+t.rate,0)/4);
-const totalUniq = 224;
+const totalUniq = 230;
 const newPerMonth = Math.round(totalUniq/12);
 
 const smartData = [
@@ -653,13 +654,13 @@ const smartData = [
   },
   {
     name:'Fidelización de Clientes Leal',
-    desc:'10 clientes Leal (7+ sesiones/año) · 4 en riesgo sin sesión en 60+ días',
-    val:'4', unit:' en riesgo',
+    desc:'12 clientes Leal (7+ sesiones/año) · 5 en riesgo sin sesión en 60+ días',
+    val:'5', unit:' en riesgo',
     target:'Meta: 0 Leales sin sesión en 60+ días',
-    pct: Math.round((4/10)*100),
+    pct: Math.round((5/12)*100),
     pctColor:'#c0392b',
     status:'yellow',
-    cta:'👑 Contactar: Anja Lowenstein, Joanna Arizabalo, Susana Paoletto, Charlotte Hannir — sin sesión desde antes de Abr 2026 → reagendar con prioridad alta',
+    cta:'👑 Contactar: María García (May), Anja Lowenstein, Joanna Arizabalo, Susana Paoletto, Charlotte Hannir — sin sesión desde antes de May 2026 → reagendar con prioridad alta',
     ctaCls:'o',
     ctaLabel:'Seguimiento'
   },
@@ -752,7 +753,7 @@ donut('dFam2','lFam2', fams, PAL);
 // ══════════════════════════════════════════════════════════════
 // 4. LEAL CARDS
 // ══════════════════════════════════════════════════════════════
-const CUTOFF = new Date('2026-04-14'); // 60 días antes del 13 Jun 2026
+const CUTOFF = new Date('2026-05-07'); // 60 días antes del 6 Jul 2026
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const leales = clientes.filter(c=>c.count>=7);
 const vc = document.getElementById('vipCards');
